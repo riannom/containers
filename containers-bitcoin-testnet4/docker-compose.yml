@@ -1,14 +1,7 @@
-networks:
-  default:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 10.21.21.0/24
-
 services:
   app_proxy:
     environment:
-      APP_HOST: 10.21.21.8
+      APP_HOST: app
       APP_PORT: 3000
 
   app:
@@ -24,7 +17,7 @@ services:
     environment:
       DEFAULT_CHAIN: testnet4
       BITCOIND_EXTRA_ARGS: '-deprecatedrpc=create_bdb'
-      APPS_SUBNET: "10.21.21.0/24"
+      APPS_SUBNET: "10.21.0.0/16"
       P2P_PORT: "48333"
       P2P_WHITEBIND_PORT: "8335"
       RPC_PORT: "48332"
@@ -34,18 +27,15 @@ services:
       ZMQ_HASHBLOCK_PORT: "28334"
       ZMQ_SEQUENCE_PORT: "28335"
       ZMQ_HASHTX_PORT: "28336"
-      TOR_HOST: "10.21.21.10"
+      TOR_HOST: "127.0.0.1"
       TOR_SOCKS_PORT: "9050"
       TOR_CONTROL_PORT: "9051"
       TOR_CONTROL_PASSWORD: "moneyprintergobrrr"
-      I2P_HOST: "10.21.21.11"
+      I2P_HOST: "127.0.0.1"
       I2P_SAM_PORT: "7656"
-      BITCOIND_IP: "10.21.21.8"
+      BITCOIND_IP: "0.0.0.0"
       RPC_USER: "umbrel"
       RPC_PASS: "${APP_PASSWORD}"
       DEVICE_DOMAIN_NAME: "umbrel.local"
       P2P_HIDDEN_SERVICE: ""
       RPC_HIDDEN_SERVICE: ""
-    networks:
-      default:
-        ipv4_address: 10.21.21.8

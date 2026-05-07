@@ -5,7 +5,7 @@ tagline: Bitcoin Core node on the testnet4 network (BIP 94)
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-testnet4/icon.svg
 version: "1.2.2"
-port: 3000
+port: 48330
 description: >-
   Runs a Bitcoin Core full node on testnet4, the modern public Bitcoin
   test network introduced via BIP 94. Recommended over testnet3 for new
