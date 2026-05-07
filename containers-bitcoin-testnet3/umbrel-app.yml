@@ -4,12 +4,18 @@ name: Bitcoin testnet3
 tagline: Bitcoin Core node on the legacy testnet3 network
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-testnet3/icon.svg
-version: "31.0"
-port: 18332
+version: "1.2.2"
+port: 3000
 description: >-
   Runs a Bitcoin Core full node on testnet3, the legacy public Bitcoin
   test network. Useful for development and integration testing against
   the long-standing testnet chain.
+
+  Includes the same Home / Insight / Settings dashboard as the official
+  Umbrel Bitcoin app, configured for testnet3. Tor and I2P sidecars are
+  not deployed in this build, so those tabs will show as unreachable;
+  clearnet sync and RPC work normally on the published RPC port (18332)
+  and P2P port (18333).
 
   This app stores its data in its own per-app data directory and does
   not affect or share state with the mainnet bitcoind app installed

@@ -51,33 +51,55 @@ its own Umbrel app, so each gets its own `${APP_DATA_DIR}` (e.g.
 mainnet `bitcoind` app's data dir.
 
 ## docker-compose.yml shape (per container)
-- Single service `server` running `bitcoin/bitcoin:<pinned-version>`.
-- `restart: unless-stopped`, `stop_grace_period: 5m` so bitcoind can flush.
-- Volume: `${APP_DATA_DIR}/data:/data/.bitcoin`.
-- Ports: P2P + RPC published as in the table above.
-- Command-line args (rather than mounting a `bitcoin.conf`):
-  - `-chain=<network>`
-  - `-datadir=/data/.bitcoin`
-  - `-server=1`
-  - `-rpcbind=0.0.0.0`
-  - `-rpcallowip=10.0.0.0/8` and `172.16.0.0/12` (cover Umbrel's docker
-    networks; not `0.0.0.0/0` so we don't accidentally expose RPC to LAN
-    even if firewalling slips).
-  - `-rpcuser=umbrel`
-  - `-rpcpassword=${APP_PASSWORD}` (Umbrel injects a per-app random secret;
-    falls back to a placeholder we'll document in releaseNotes if absent).
-  - `-rpcport=<network rpc port>`
-  - `-port=<network p2p port>`
-- No `app_proxy` service: these apps have no web UI; they are backend
-  services. `port` in `umbrel-app.yml` is set to the RPC port purely to
-  satisfy the manifest schema.
+Each app reuses the official Umbrel Bitcoin dashboard image
+`ghcr.io/getumbrel/umbrel-bitcoin:v1.2.2`, which bundles bitcoind +
+the Home / Insight / Settings web UI in one container.
 
-### Why `bitcoin/bitcoin` and `-chain=` flags
-- The image is the upstream-maintained Bitcoin Core build; entrypoint is
-  `bitcoind`, so CLI args are passed via compose `command:`.
-- `-chain=testnet4` requires Bitcoin Core ≥ 28.0; we'll pin to a version
-  that supports it (proposed: `28.1`). Verify the tag exists on Docker Hub
-  before writing the compose files.
+- `app_proxy` service routing to the dashboard's port `3000` so that
+  clicking the app icon in Umbrel opens the UI.
+- `app` service running the dashboard image:
+  - `user: "1000:1000"`, `restart: on-failure`, `stop_grace_period: 15m30s`.
+  - Volume: `${APP_DATA_DIR}/data:/data` (the image expects `/data` as the
+    root of its app + bitcoin state, not `/data/.bitcoin`).
+  - Ports: P2P + RPC published as in the table above.
+  - Static IP `10.21.21.8` on a per-app `10.21.21.0/24` bridge network
+    (matches the upstream prod compose's IP plumbing). Each Umbrel app is
+    in its own docker network namespace, so the same subnet can be reused
+    across all three testnet apps with no cross-app collision.
+  - Environment:
+    - `DEFAULT_CHAIN: test | testnet4 | signet` — sets the chain on first
+      launch; the user can later change it from the Settings tab.
+    - `BITCOIND_EXTRA_ARGS: '-deprecatedrpc=create_bdb'` — matches the
+      official mainnet app.
+    - `P2P_PORT` / `RPC_PORT` — the host-published ports for that network.
+    - `BITCOIND_IP: 10.21.21.8` — used both for bitcoind's `rpcbind`/`bind`
+      and as the connect host for the dashboard's RPC client (same
+      container, reachable on its own static IP).
+    - `RPC_USER: umbrel`, `RPC_PASS: ${APP_PASSWORD}` — Umbrel injects the
+      per-app random secret.
+    - `TOR_HOST` / `I2P_HOST` set to dummy in-subnet IPs (`10.21.21.10` /
+      `10.21.21.11`) so the bitcoin.conf template renders cleanly even
+      though no Tor or I2P sidecar is deployed; bitcoind will simply log
+      that those proxies are unreachable and fall through to clearnet.
+    - Internal-only ports (Tor 8334, P2P whitebind 8335, ZMQ 28332-28336)
+      reuse the same numbers as the mainnet app — they live inside each
+      app's isolated network and do not collide.
+
+### Why the official dashboard image instead of `bitcoin/bitcoin`
+- Replaces a manually-rolled headless setup with the same Home / Insight /
+  Settings UI as the official Umbrel Bitcoin app.
+- The image bundles bitcoind v30.2 (default), v30.0, and v29.2; the
+  dashboard's Settings tab can switch between bundled versions. All three
+  support `-chain=testnet4`.
+- Source code: <https://github.com/getumbrel/umbrel-bitcoin>. Confirmed
+  via the backend's `config.ts` that `DEFAULT_CHAIN` natively accepts
+  `test`, `testnet4`, and `signet`.
+
+### What we trade away
+- We no longer pin `bitcoin/bitcoin:<version>`; the bitcoind binary is
+  whatever the dashboard image ships.
+- Tor and I2P sidecars are not deployed; those tabs in the dashboard show
+  as unreachable. Easy to add later if the use case calls for it.
 
 ## umbrel-app.yml shape (per container)
 Manifest fields, mirroring the structure seen in `rh-containers` but written
@@ -88,10 +110,12 @@ fresh for each network:
 - `tagline`: short, network-specific
 - `category: bitcoin`
 - `icon`: raw GitHub URL to the per-container `icon.svg`
-- `version`: matches pinned Bitcoin Core version
-- `port`: the RPC host port for that network
-- `description`: 2–3 sentences explaining the network and that this app does
-  not affect or share data with the mainnet bitcoind app.
+- `version`: matches the dashboard image (`1.2.2`), since that is what
+  users see updates against — not the bundled bitcoind version.
+- `port: 3000` — the dashboard UI port (the `app_proxy` routes here).
+- `description`: 2–3 sentences explaining the network, mentioning that the
+  dashboard is included, and that this app does not affect or share data
+  with the mainnet bitcoind app.
 - `website`, `support`, `repo`: this repo
 - `developer: riannom`
 

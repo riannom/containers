@@ -4,12 +4,18 @@ name: Bitcoin testnet4
 tagline: Bitcoin Core node on the testnet4 network (BIP 94)
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-testnet4/icon.svg
-version: "31.0"
-port: 48332
+version: "1.2.2"
+port: 3000
 description: >-
   Runs a Bitcoin Core full node on testnet4, the modern public Bitcoin
   test network introduced via BIP 94. Recommended over testnet3 for new
   development work targeting current consensus rules.
+
+  Includes the same Home / Insight / Settings dashboard as the official
+  Umbrel Bitcoin app, configured for testnet4. Tor and I2P sidecars are
+  not deployed in this build, so those tabs will show as unreachable;
+  clearnet sync and RPC work normally on the published RPC port (48332)
+  and P2P port (48333).
 
   This app stores its data in its own per-app data directory and does
   not affect or share state with the mainnet bitcoind app installed
