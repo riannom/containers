@@ -1,0 +1,25 @@
+manifestVersion: 1.1
+id: containers-bitcoin-testnet3
+name: Bitcoin testnet3
+tagline: Bitcoin Core node on the legacy testnet3 network
+category: bitcoin
+icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-testnet3/icon.svg
+version: "31.0"
+port: 18332
+description: >-
+  Runs a Bitcoin Core full node on testnet3, the legacy public Bitcoin
+  test network. Useful for development and integration testing against
+  the long-standing testnet chain.
+
+  This app stores its data in its own per-app data directory and does
+  not affect or share state with the mainnet bitcoind app installed
+  from the official Umbrel store.
+website: https://github.com/riannom/containers
+support: https://github.com/riannom/containers
+gallery: []
+releaseNotes: ""
+developer: riannom
+repo: https://github.com/riannom/containers
+path: ""
+defaultUsername: ""
+defaultPassword: ""

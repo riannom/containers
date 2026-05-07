@@ -1,0 +1,25 @@
+manifestVersion: 1.1
+id: containers-bitcoin-signet
+name: Bitcoin signet
+tagline: Bitcoin Core node on the signet test network
+category: bitcoin
+icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-signet/icon.svg
+version: "31.0"
+port: 38332
+description: >-
+  Runs a Bitcoin Core full node on signet, a stable, signed test
+  network well suited for application development that needs
+  predictable block production without testnet's volatile difficulty.
+
+  This app stores its data in its own per-app data directory and does
+  not affect or share state with the mainnet bitcoind app installed
+  from the official Umbrel store.
+website: https://github.com/riannom/containers
+support: https://github.com/riannom/containers
+gallery: []
+releaseNotes: ""
+developer: riannom
+repo: https://github.com/riannom/containers
+path: ""
+defaultUsername: ""
+defaultPassword: ""

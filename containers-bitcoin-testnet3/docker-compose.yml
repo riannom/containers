@@ -1,0 +1,21 @@
+services:
+  server:
+    image: bitcoin/bitcoin:31.0
+    restart: unless-stopped
+    stop_grace_period: 5m
+    ports:
+      - "18333:18333"
+      - "18332:18332"
+    volumes:
+      - ${APP_DATA_DIR}/data:/data/.bitcoin
+    command:
+      - -chain=test
+      - -datadir=/data/.bitcoin
+      - -server=1
+      - -rpcbind=0.0.0.0
+      - -rpcallowip=10.0.0.0/8
+      - -rpcallowip=172.16.0.0/12
+      - -rpcuser=umbrel
+      - -rpcpassword=${APP_PASSWORD}
+      - -rpcport=18332
+      - -port=18333
