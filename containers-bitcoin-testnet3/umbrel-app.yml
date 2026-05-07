@@ -4,7 +4,7 @@ name: Bitcoin testnet3
 tagline: Bitcoin Core node on the legacy testnet3 network
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-testnet3/icon.svg
-version: "1.2.2"
+version: "1.2.3"
 port: 18330
 description: >-
   Runs a Bitcoin Core full node on testnet3, the legacy public Bitcoin
