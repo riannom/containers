@@ -4,7 +4,7 @@ name: Bitcoin signet
 tagline: Bitcoin Core node on the signet test network
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-signet/icon.svg
-version: "1.2.4"
+version: "1.2.5"
 port: 38330
 description: >-
   Runs a Bitcoin Core full node on signet, a stable, signed test
