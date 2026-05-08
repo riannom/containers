@@ -1,0 +1,32 @@
+manifestVersion: 1.1
+id: containers-electrs-testnet4
+name: Electrs testnet4
+tagline: Electrum server backed by the testnet4 (BIP 94) Bitcoin Core node
+category: bitcoin
+icon: https://raw.githubusercontent.com/riannom/containers/main/containers-electrs-testnet4/icon.svg
+version: "0.11.0"
+port: 60040
+description: >-
+  Runs Electrs (Roman Zeyde's Electrum server, v0.11.0) on top of the
+  Bitcoin testnet4 app from this community store. Lets Electrum-compatible
+  wallets (Sparrow, BlueWallet, Electrum desktop, etc.) connect to a
+  personal index of the modern testnet4 (BIP 94) chain instead of a
+  third-party public server.
+
+  Pairs with the "Bitcoin testnet4" app. Both apps must be installed and
+  the bitcoind app must be at version 1.2.4 or newer so it ships with the
+  shared RPC password Electrs uses to authenticate.
+
+  Connection details for wallets:
+    Host:  umbrel.local (or your Umbrel device IP)
+    Port:  60041
+    Type:  TCP (no TLS)
+website: https://github.com/riannom/containers
+support: https://github.com/riannom/containers
+gallery: []
+releaseNotes: ""
+developer: riannom
+repo: https://github.com/riannom/containers
+path: ""
+defaultUsername: ""
+defaultPassword: ""

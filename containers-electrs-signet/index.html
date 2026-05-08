@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Electrs signet</title>
+<style>
+  body { font-family: -apple-system, system-ui, sans-serif; background:#2a0e3d; color:#f4ecfa; margin:0; padding:40px; }
+  main { max-width: 640px; margin: 0 auto; }
+  h1 { color:#d8b4fe; margin-bottom:8px; }
+  .badge { display:inline-block; background:#9333ea; color:#fff; padding:2px 10px; border-radius:999px; font-size:12px; letter-spacing:2px; }
+  pre { background:#1a062a; padding:16px; border-radius:8px; overflow:auto; }
+  code { color:#d8b4fe; }
+  a { color:#d8b4fe; }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">SIGNET</span>
+  <h1>Electrs signet</h1>
+  <p>Personal Electrum server indexing the Bitcoin signet chain from your sibling
+     <code>Bitcoin signet</code> app.</p>
+
+  <h2>Wallet connection</h2>
+  <pre>Host: umbrel.local   (or your Umbrel device IP)
+Port: 60051
+Type: TCP (plain, no TLS)</pre>
+
+  <h2>Status</h2>
+  <p>This page is static. To check sync progress, open a terminal and tail the
+     <code>electrs</code> container logs:</p>
+  <pre>sudo docker logs -f containers-electrs-signet_electrs_1</pre>
+
+  <h2>Notes</h2>
+  <ul>
+    <li>The matching <code>Bitcoin signet</code> app must be installed and running at v1.2.4 or newer.</li>
+    <li>Signet is small and produces blocks predictably, so initial index should be quick.</li>
+    <li>RPC auth uses a shared hardcoded credential pair, so don't expose the bitcoind RPC port publicly.</li>
+  </ul>
+</main>
+</body>
+</html>

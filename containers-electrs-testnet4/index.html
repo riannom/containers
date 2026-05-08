@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Electrs testnet4</title>
+<style>
+  body { font-family: -apple-system, system-ui, sans-serif; background:#0c1e3d; color:#e7eefb; margin:0; padding:40px; }
+  main { max-width: 640px; margin: 0 auto; }
+  h1 { color:#93c5fd; margin-bottom:8px; }
+  .badge { display:inline-block; background:#2563eb; color:#fff; padding:2px 10px; border-radius:999px; font-size:12px; letter-spacing:2px; }
+  pre { background:#06122a; padding:16px; border-radius:8px; overflow:auto; }
+  code { color:#93c5fd; }
+  a { color:#93c5fd; }
+</style>
+</head>
+<body>
+<main>
+  <span class="badge">TESTNET4</span>
+  <h1>Electrs testnet4</h1>
+  <p>Personal Electrum server indexing the Bitcoin testnet4 (BIP 94) chain from
+     your sibling <code>Bitcoin testnet4</code> app.</p>
+
+  <h2>Wallet connection</h2>
+  <pre>Host: umbrel.local   (or your Umbrel device IP)
+Port: 60041
+Type: TCP (plain, no TLS)</pre>
+
+  <h2>Status</h2>
+  <p>This page is static. To check sync progress, open a terminal and tail the
+     <code>electrs</code> container logs:</p>
+  <pre>sudo docker logs -f containers-electrs-testnet4_electrs_1</pre>
+
+  <h2>Notes</h2>
+  <ul>
+    <li>The matching <code>Bitcoin testnet4</code> app must be installed and running at v1.2.4 or newer.</li>
+    <li>Testnet4 is much smaller than testnet3, so the initial index should finish in well under an hour.</li>
+    <li>RPC auth uses a shared hardcoded credential pair, so don't expose the bitcoind RPC port publicly.</li>
+  </ul>
+</main>
+</body>
+</html>

@@ -1,0 +1,32 @@
+manifestVersion: 1.1
+id: containers-electrs-signet
+name: Electrs signet
+tagline: Electrum server backed by the signet Bitcoin Core node
+category: bitcoin
+icon: https://raw.githubusercontent.com/riannom/containers/main/containers-electrs-signet/icon.svg
+version: "0.11.0"
+port: 60050
+description: >-
+  Runs Electrs (Roman Zeyde's Electrum server, v0.11.0) on top of the
+  Bitcoin signet app from this community store. Lets Electrum-compatible
+  wallets (Sparrow, BlueWallet, Electrum desktop, etc.) connect to a
+  personal index of the signet chain instead of a third-party public
+  server.
+
+  Pairs with the "Bitcoin signet" app. Both apps must be installed and
+  the bitcoind app must be at version 1.2.4 or newer so it ships with the
+  shared RPC password Electrs uses to authenticate.
+
+  Connection details for wallets:
+    Host:  umbrel.local (or your Umbrel device IP)
+    Port:  60051
+    Type:  TCP (no TLS)
+website: https://github.com/riannom/containers
+support: https://github.com/riannom/containers
+gallery: []
+releaseNotes: ""
+developer: riannom
+repo: https://github.com/riannom/containers
+path: ""
+defaultUsername: ""
+defaultPassword: ""

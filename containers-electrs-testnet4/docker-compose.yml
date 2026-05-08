@@ -1,0 +1,33 @@
+services:
+  app_proxy:
+    environment:
+      APP_HOST: app
+      APP_PORT: 80
+
+  app:
+    image: nginx:alpine
+    user: root
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/index.html:/usr/share/nginx/html/index.html:ro
+
+  electrs:
+    image: getumbrel/electrs:v0.11.0
+    user: root
+    restart: on-failure
+    stop_grace_period: 1m
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "60041:60041"
+    volumes:
+      - ${APP_DATA_DIR}/data:/data
+    environment:
+      ELECTRS_LOG_FILTERS: "INFO"
+      ELECTRS_NETWORK: "testnet4"
+      ELECTRS_DAEMON_RPC_ADDR: "host.docker.internal:48332"
+      ELECTRS_DAEMON_P2P_ADDR: "host.docker.internal:48333"
+      ELECTRS_ELECTRUM_RPC_ADDR: "0.0.0.0:60041"
+      ELECTRS_DB_DIR: "/data/db"
+      ELECTRS_COOKIE: "umbrel:umbrel-electrs-shared-pass"
+      ELECTRS_SERVER_BANNER: "Electrs testnet4 (community store)"

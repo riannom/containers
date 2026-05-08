@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#0c1e3d"/>
+  <circle cx="512" cy="430" r="280" fill="#2563eb"/>
+  <text x="512" y="555" font-family="Arial, Helvetica, sans-serif" font-size="320" font-weight="700" text-anchor="middle" fill="#ffffff">E</text>
+  <text x="512" y="850" font-family="Arial, Helvetica, sans-serif" font-size="120" font-weight="700" letter-spacing="8" text-anchor="middle" fill="#93c5fd">TESTNET4</text>
+</svg>
