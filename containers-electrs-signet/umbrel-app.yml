@@ -4,7 +4,7 @@ name: Electrs signet
 tagline: Electrum server backed by the signet Bitcoin Core node
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-electrs-signet/icon.svg
-version: "0.11.0"
+version: "0.11.1"
 port: 60050
 description: >-
   Runs Electrs (Roman Zeyde's Electrum server, v0.11.0) on top of the
