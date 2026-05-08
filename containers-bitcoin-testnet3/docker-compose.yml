@@ -34,7 +34,7 @@ services:
       I2P_SAM_PORT: "7656"
       BITCOIND_IP: "0.0.0.0"
       RPC_USER: "umbrel"
-      RPC_PASS: "${APP_PASSWORD}"
+      RPC_PASS: "umbrel-electrs-shared-pass"
       DEVICE_DOMAIN_NAME: "umbrel.local"
       P2P_HIDDEN_SERVICE: ""
       RPC_HIDDEN_SERVICE: ""
