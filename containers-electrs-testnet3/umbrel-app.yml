@@ -4,8 +4,10 @@ name: Electrs testnet3
 tagline: Electrum server backed by the testnet3 Bitcoin Core node
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-electrs-testnet3/icon.svg
-version: "0.11.1"
+version: "0.11.2"
 port: 60030
+dependencies:
+  - containers-bitcoin-testnet3
 description: >-
   Runs Electrs (Roman Zeyde's Electrum server, v0.11.0) on top of the
   Bitcoin testnet3 app from this community store. Lets Electrum-compatible

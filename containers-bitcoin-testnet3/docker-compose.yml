@@ -1,19 +1,19 @@
 services:
   app_proxy:
     environment:
-      APP_HOST: banner
+      APP_HOST: testnet3_web
       APP_PORT: 80
 
-  banner:
+  testnet3_web:
     image: nginx:alpine
     user: root
     restart: on-failure
     depends_on:
-      - app
+      - testnet3_server
     volumes:
       - ${APP_DATA_DIR}/banner.conf:/etc/nginx/conf.d/default.conf:ro
 
-  app:
+  testnet3_server:
     image: ghcr.io/getumbrel/umbrel-bitcoin:v1.2.2
     restart: on-failure
     stop_grace_period: 15m30s
