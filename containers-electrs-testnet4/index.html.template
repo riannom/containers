@@ -149,20 +149,20 @@
     testnet3: { bg1: "#0a3321", bg2: "#040d09", accent: "#22c55e", soft: "#bbf7d0" },
     testnet4: { bg1: "#0d2552", bg2: "#050a16", accent: "#3b82f6", soft: "#bfdbfe" }
   };
-  // Same geometry as the app icons (icon.svg), drawn as the Electrs variant.
-  var MARKS = {
-    signet: '<path d="M 232 700 H 512 A 200 200 0 1 0 511.9 700 H 792" fill="none" stroke="url(#m)" stroke-width="36" stroke-linecap="round"/>' +
-            '<circle cx="512" cy="500" r="64" fill="url(#m)"/>',
-    testnet3: '<rect x="228" y="324" width="408" height="88" rx="44" fill="none" stroke="url(#m)" stroke-width="32"/>' +
-              '<rect x="308" y="468" width="408" height="88" rx="44" fill="none" stroke="url(#m)" stroke-width="32"/>' +
-              '<rect x="388" y="612" width="408" height="88" rx="44" fill="none" stroke="url(#m)" stroke-width="32"/>' +
-              '<circle cx="512" cy="512" r="46" fill="url(#m)" stroke="url(#b)" stroke-width="22"/>',
-    testnet4: '<rect x="304" y="304" width="168" height="168" rx="32" fill="none" stroke="url(#m)" stroke-width="32"/>' +
-              '<rect x="552" y="304" width="168" height="168" rx="32" fill="none" stroke="url(#m)" stroke-width="32"/>' +
-              '<rect x="304" y="552" width="168" height="168" rx="32" fill="none" stroke="url(#m)" stroke-width="32"/>' +
-              '<rect x="552" y="552" width="168" height="168" rx="32" fill="none" stroke="url(#m)" stroke-width="32"/>' +
-              '<circle cx="512" cy="512" r="50" fill="url(#m)" stroke="url(#b)" stroke-width="26"/>'
+  // Same geometry as the Electrs app icons (icon.svg): a shared mark plus a
+  // per-network badge glyph drawn as strokes.
+  var GLYPHS = {
+    signet: "M 40 -48 C 30 -74 -42 -76 -42 -36 C -42 -4 42 -6 42 32 C 42 74 -30 76 -44 46",
+    testnet3: "M -40 -52 C -24 -78 42 -76 40 -36 C 38 -10 12 -6 -6 -6 C 22 -6 46 6 44 34 C 42 74 -22 78 -44 52",
+    testnet4: "M 26 72 V -72 L -48 30 H 52"
   };
+  function markSvg(net, t) {
+    return '<circle cx="472" cy="472" r="232" fill="none" stroke="url(#m)" stroke-width="32"/>' +
+      '<path d="M 512 296 L 392 500 H 478 L 440 648 L 566 432 H 478 Z" fill="url(#m)" stroke="url(#m)" stroke-width="12" stroke-linejoin="round"/>' +
+      '<circle cx="736" cy="736" r="132" fill="url(#m)" stroke="url(#b)" stroke-width="36"/>' +
+      '<path transform="translate(736 736)" d="' + (GLYPHS[net] || "") + '" fill="none" stroke="' + t.bg2 +
+      '" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>';
+  }
 
   var POLL_MS = 5000;
   var cfg = null;
@@ -418,7 +418,7 @@
       '<svg viewBox="0 0 1024 1024" aria-hidden="true"><defs>' +
       '<linearGradient id="b" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + t.bg1 + '"/><stop offset="1" stop-color="' + t.bg2 + '"/></linearGradient>' +
       '<linearGradient id="m" x1="232" y1="232" x2="792" y2="792" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="' + t.soft + '"/><stop offset="1" stop-color="' + t.accent + '"/></linearGradient>' +
-      '</defs><rect width="1024" height="1024" fill="url(#b)"/>' + (MARKS[c.network] || "") + '</svg>';
+      '</defs><rect width="1024" height="1024" fill="url(#b)"/>' + markSvg(c.network, t) + '</svg>';
     var host = window.location.hostname;
     el("cHost").textContent = host;
     el("cPort").textContent = c.port;
