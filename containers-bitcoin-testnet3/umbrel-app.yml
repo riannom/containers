@@ -6,7 +6,7 @@ name: Bitcoin testnet3
 tagline: Bitcoin Core node on the legacy testnet3 network
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-testnet3/icon.svg
-version: "1.3.1"
+version: "1.3.2"
 port: 18330
 description: >-
   Runs a Bitcoin Core full node on testnet3, the legacy public Bitcoin
@@ -16,9 +16,11 @@ description: >-
   Includes the same Home / Insight / Settings dashboard as the official
   Umbrel Bitcoin app, configured for testnet3. Tor and I2P sidecars are
   not deployed in this build, so those tabs will show as unreachable;
-  clearnet sync and RPC work normally on the published RPC port (18335)
-  and P2P port (18333). RPC is not testnet3's default 18332 because the
-  official Elements app uses that port.
+  clearnet sync and RPC work normally on the published RPC port (default
+  18332) and P2P port (default 18333). If another installed app already
+  uses one of these ports, the app picks the next free one (default +
+  100, + 200, ...) when it is installed and keeps it; the dashboard's
+  connection details show the ports in use.
 
   This app stores its data in its own per-app data directory and does
   not affect or share state with the mainnet bitcoind app installed
@@ -27,11 +29,14 @@ website: https://github.com/riannom/containers
 support: https://github.com/riannom/containers
 gallery: []
 releaseNotes: >-
-  Moves RPC from port 18332 to 18335. The official Elements app publishes
-  its P2P port on 18332, so installing Bitcoin testnet3 failed on devices
-  that also run Elements. Update any wallet or client that connects to this
-  node's RPC on the old port. P2P (18333) is unchanged. After updating,
-  also update Electrs testnet3 so it connects on the new port.
+  Host ports are now chosen automatically. RPC and P2P use their default
+  ports unless another installed app already uses one, in which case the
+  app picks the next free port (default + 100, + 200, ...) at install and
+  keeps it. This fixes installs failing with "port is already allocated"
+  next to apps such as Elements. Existing installs keep their ports.
+  RPC returns to testnet3's standard port 18332 where it is free (1.3.1
+  had moved it to 18335).
+  After updating, also update Electrs testnet3.
 backupIgnore:
   - data/bitcoin/testnet3/blocks
   - data/bitcoin/testnet3/chainstate

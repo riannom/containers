@@ -6,7 +6,7 @@ name: Bitcoin signet
 tagline: Bitcoin Core node on the signet test network
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-signet/icon.svg
-version: "1.3.0"
+version: "1.3.1"
 port: 38330
 description: >-
   Runs a Bitcoin Core full node on signet, a stable, signed test
@@ -16,8 +16,11 @@ description: >-
   Includes the same Home / Insight / Settings dashboard as the official
   Umbrel Bitcoin app, configured for signet. Tor and I2P sidecars are
   not deployed in this build, so those tabs will show as unreachable;
-  clearnet sync and RPC work normally on the published RPC port (38332)
-  and P2P port (38333).
+  clearnet sync and RPC work normally on the published RPC port (default
+  38332) and P2P port (default 38333). If another installed app already
+  uses one of these ports, the app picks the next free one (default +
+  100, + 200, ...) when it is installed and keeps it; the dashboard's
+  connection details show the ports in use.
 
   This app stores its data in its own per-app data directory and does
   not affect or share state with the mainnet bitcoind app installed
@@ -26,13 +29,12 @@ website: https://github.com/riannom/containers
 support: https://github.com/riannom/containers
 gallery: []
 releaseNotes: >-
-  Updates the app for umbrelOS 2.0. bitcoind and the dashboard now run on
-  fixed addresses on the Umbrel app network, and the app publishes its
-  connection details (address, ports, RPC credentials) to apps that depend
-  on it. Electrs signet connects to bitcoind directly instead of through the
-  host. Chain data can now be moved to other storage from umbrelOS, and
-  blocks, chainstate and indexes are excluded from backups. RPC (38332) and
-  P2P (38333) ports are unchanged.
+  Host ports are now chosen automatically. RPC and P2P use their default
+  ports unless another installed app already uses one, in which case the
+  app picks the next free port (default + 100, + 200, ...) at install and
+  keeps it. This fixes installs failing with "port is already allocated"
+  next to apps such as Elements. Existing installs keep their ports.
+  After updating, also update Electrs signet.
 backupIgnore:
   - data/bitcoin/signet/blocks
   - data/bitcoin/signet/chainstate
