@@ -1,10 +1,12 @@
 manifestVersion: 1.1
 id: containers-bitcoin-testnet4
+storage:
+  dataRoot: data
 name: Bitcoin testnet4
 tagline: Bitcoin Core node on the testnet4 network (BIP 94)
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-testnet4/icon.svg
-version: "1.2.10"
+version: "1.3.0"
 port: 58330
 description: >-
   Runs a Bitcoin Core full node on testnet4, the modern public Bitcoin
@@ -14,8 +16,9 @@ description: >-
   Includes the same Home / Insight / Settings dashboard as the official
   Umbrel Bitcoin app, configured for testnet4. Tor and I2P sidecars are
   not deployed in this build, so those tabs will show as unreachable;
-  clearnet sync and RPC work normally on the published RPC port (48332)
-  and P2P port (48333).
+  clearnet sync and RPC work normally on the published RPC port (58332)
+  and P2P port (58333). These differ from testnet4's defaults
+  (48332/48333) because umbrelOS reserves ports 40000-49999.
 
   This app stores its data in its own per-app data directory and does
   not affect or share state with the mainnet bitcoind app installed
@@ -24,13 +27,19 @@ website: https://github.com/riannom/containers
 support: https://github.com/riannom/containers
 gallery: []
 releaseNotes: >-
-  Moves the app's dashboard port from 48330 to 58330. umbrelOS reserves
-  ports 40000-49999 for its Machines (VM) feature and now blocks app
-  installs whose port falls in that range, which prevented reinstalling
-  testnet4. RPC (48332) and P2P (48333) are unchanged. Also includes the
-  earlier fix for the block filter index crash loop after an unclean
-  shutdown: a one-time init step clears just that index so bitcoind
-  rebuilds it from local blocks on boot — no re-download of the chain.
+  Updates the app for umbrelOS 2.0. RPC moves from 48332 to 58332 and P2P
+  from 48333 to 58333, because umbrelOS reserves ports 40000-49999 for its
+  Machines feature; update any wallet or client that connects to this node
+  on the old ports. bitcoind and the dashboard now run on fixed addresses on
+  the Umbrel app network, and the app publishes its connection details
+  (address, ports, RPC credentials) to apps that depend on it, so Electrs
+  testnet4 connects directly instead of through the host. Chain data can
+  now be moved to other storage from umbrelOS, and blocks, chainstate and
+  indexes are excluded from backups.
+backupIgnore:
+  - data/bitcoin/testnet4/blocks
+  - data/bitcoin/testnet4/chainstate
+  - data/bitcoin/testnet4/indexes
 developer: riannom
 repo: https://github.com/riannom/containers
 path: ""

@@ -1,11 +1,11 @@
 services:
   app_proxy:
     environment:
-      APP_HOST: testnet3_web
+      APP_HOST: $APP_CONTAINERS_BITCOIN_TESTNET3_WEB_IP
       APP_PORT: 80
 
   testnet3_web:
-    image: nginx:alpine
+    image: nginx:alpine@sha256:62ff2089abf5a9ed33bd232895bef5e22f7bb4b200675cec49a5ebc48e3d4ac8
     user: root
     restart: on-failure
     depends_on:
@@ -35,7 +35,7 @@ services:
             sub_filter '<title>' '<title>[TESTNET3] ';
 
             location / {
-                proxy_pass http://testnet3_server:3000;
+                proxy_pass http://${APP_CONTAINERS_BITCOIN_TESTNET3_NODE_IP}:3000;
                 proxy_http_version 1.1;
                 proxy_set_header Host $$host;
                 proxy_set_header X-Real-IP $$remote_addr;
@@ -49,9 +49,12 @@ services:
         }
         NGINX_EOF
         exec nginx -g 'daemon off;'
+    networks:
+      default:
+        ipv4_address: $APP_CONTAINERS_BITCOIN_TESTNET3_WEB_IP
 
   testnet3_init:
-    image: nginx:alpine
+    image: nginx:alpine@sha256:62ff2089abf5a9ed33bd232895bef5e22f7bb4b200675cec49a5ebc48e3d4ac8
     user: root
     restart: "no"
     volumes:
@@ -79,24 +82,26 @@ services:
         echo "[init] block filter index heal complete"
 
   testnet3_server:
-    image: ghcr.io/getumbrel/umbrel-bitcoin:v1.2.2
+    image: ghcr.io/getumbrel/umbrel-bitcoin:v1.2.2@sha256:bc72c7fe705c582b8be1740c52449ac82de4d40b0e91ea090513aac6d4fc9393
     restart: on-failure
     stop_grace_period: 15m30s
     depends_on:
       testnet3_init:
         condition: service_completed_successfully
+    # exposed for external connections to bitcoind; dependent apps connect
+    # directly to APP_CONTAINERS_BITCOIN_TESTNET3_NODE_IP instead
     ports:
-      - "18333:18333"
-      - "18332:18332"
+      - "${APP_CONTAINERS_BITCOIN_TESTNET3_P2P_PORT}:${APP_CONTAINERS_BITCOIN_TESTNET3_P2P_PORT}"
+      - "${APP_CONTAINERS_BITCOIN_TESTNET3_RPC_PORT}:${APP_CONTAINERS_BITCOIN_TESTNET3_RPC_PORT}"
     volumes:
       - ${APP_DATA_DIR}/data:/data
     environment:
       DEFAULT_CHAIN: test
       BITCOIND_EXTRA_ARGS: '-deprecatedrpc=create_bdb'
-      APPS_SUBNET: "10.21.0.0/16"
-      P2P_PORT: "18333"
+      APPS_SUBNET: "${NETWORK_IP}/16"
+      P2P_PORT: "${APP_CONTAINERS_BITCOIN_TESTNET3_P2P_PORT}"
       P2P_WHITEBIND_PORT: "8335"
-      RPC_PORT: "18332"
+      RPC_PORT: "${APP_CONTAINERS_BITCOIN_TESTNET3_RPC_PORT}"
       TOR_PORT: "8334"
       ZMQ_RAWBLOCK_PORT: "28332"
       ZMQ_RAWTX_PORT: "28333"
@@ -109,9 +114,12 @@ services:
       TOR_CONTROL_PASSWORD: "moneyprintergobrrr"
       I2P_HOST: "127.0.0.1"
       I2P_SAM_PORT: "7656"
-      BITCOIND_IP: "0.0.0.0"
-      RPC_USER: "umbrel"
-      RPC_PASS: "umbrel-electrs-shared-pass"
-      DEVICE_DOMAIN_NAME: "umbrel.local"
+      BITCOIND_IP: "${APP_CONTAINERS_BITCOIN_TESTNET3_NODE_IP}"
+      RPC_USER: "${APP_CONTAINERS_BITCOIN_TESTNET3_RPC_USER}"
+      RPC_PASS: "${APP_CONTAINERS_BITCOIN_TESTNET3_RPC_PASS}"
+      DEVICE_DOMAIN_NAME: "${DEVICE_DOMAIN_NAME}"
       P2P_HIDDEN_SERVICE: ""
       RPC_HIDDEN_SERVICE: ""
+    networks:
+      default:
+        ipv4_address: $APP_CONTAINERS_BITCOIN_TESTNET3_NODE_IP

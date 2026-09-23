@@ -1,34 +1,49 @@
 services:
   app_proxy:
     environment:
-      APP_HOST: electrs_testnet3_web
+      APP_HOST: $APP_CONTAINERS_ELECTRS_TESTNET3_WEB_IP
       APP_PORT: 80
 
   electrs_testnet3_web:
-    image: nginx:alpine
+    image: nginx:alpine@sha256:62ff2089abf5a9ed33bd232895bef5e22f7bb4b200675cec49a5ebc48e3d4ac8
     user: root
     restart: on-failure
     volumes:
       - ${APP_DATA_DIR}/index.html:/usr/share/nginx/html/index.html:ro
       - ${APP_DATA_DIR}/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      default:
+        ipv4_address: $APP_CONTAINERS_ELECTRS_TESTNET3_WEB_IP
 
   electrs_testnet3:
-    image: getumbrel/electrs:v0.11.0
+    image: getumbrel/electrs:v0.11.0@sha256:0a2c6f573abfd8d724651c6ba1c1f3a9c740219c1cf0f4468043c3342170d8a5
     user: root
     restart: on-failure
     stop_grace_period: 1m
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     ports:
-      - "60031:60031"
+      - "${APP_CONTAINERS_ELECTRS_TESTNET3_PORT}:${APP_CONTAINERS_ELECTRS_TESTNET3_PORT}"
     volumes:
       - ${APP_DATA_DIR}/data:/data
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        set -e
+        # electrs v0.11 authenticates to bitcoind only through a cookie file
+        # (it ignores ELECTRS_COOKIE), so write the RPC credentials exported by
+        # containers-bitcoin-testnet3 to one and point electrs at it.
+        umask 077
+        printf '%s:%s' "$$BITCOIN_RPC_USER" "$$BITCOIN_RPC_PASS" > /data/.cookie
+        exec electrs --cookie-file /data/.cookie
     environment:
+      BITCOIN_RPC_USER: "${APP_CONTAINERS_BITCOIN_TESTNET3_RPC_USER}"
+      BITCOIN_RPC_PASS: "${APP_CONTAINERS_BITCOIN_TESTNET3_RPC_PASS}"
       ELECTRS_LOG_FILTERS: "INFO"
       ELECTRS_NETWORK: "testnet"
-      ELECTRS_DAEMON_RPC_ADDR: "host.docker.internal:18332"
-      ELECTRS_DAEMON_P2P_ADDR: "host.docker.internal:18333"
-      ELECTRS_ELECTRUM_RPC_ADDR: "0.0.0.0:60031"
+      ELECTRS_DAEMON_RPC_ADDR: "${APP_CONTAINERS_BITCOIN_TESTNET3_NODE_IP}:${APP_CONTAINERS_BITCOIN_TESTNET3_RPC_PORT}"
+      ELECTRS_DAEMON_P2P_ADDR: "${APP_CONTAINERS_BITCOIN_TESTNET3_NODE_IP}:${APP_CONTAINERS_BITCOIN_TESTNET3_P2P_PORT}"
+      ELECTRS_ELECTRUM_RPC_ADDR: "0.0.0.0:${APP_CONTAINERS_ELECTRS_TESTNET3_PORT}"
       ELECTRS_DB_DIR: "/data/db"
-      ELECTRS_COOKIE: "umbrel:umbrel-electrs-shared-pass"
       ELECTRS_SERVER_BANNER: "Electrs testnet3 (community store)"
+    networks:
+      default:
+        ipv4_address: $APP_CONTAINERS_ELECTRS_TESTNET3_IP

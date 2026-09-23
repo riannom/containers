@@ -1,10 +1,12 @@
 manifestVersion: 1.1
 id: containers-bitcoin-testnet3
+storage:
+  dataRoot: data
 name: Bitcoin testnet3
 tagline: Bitcoin Core node on the legacy testnet3 network
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-testnet3/icon.svg
-version: "1.2.9"
+version: "1.3.0"
 port: 18330
 description: >-
   Runs a Bitcoin Core full node on testnet3, the legacy public Bitcoin
@@ -24,11 +26,17 @@ website: https://github.com/riannom/containers
 support: https://github.com/riannom/containers
 gallery: []
 releaseNotes: >-
-  Fixes a crash loop after an unclean shutdown where the basic block filter
-  index falls behind the chain tip and Bitcoin Core v30 refuses to start
-  ("Cannot read last block filter header; index may be corrupted"). A one-time
-  init step now clears just that index so bitcoind rebuilds it from local
-  blocks on boot — no re-download of the chain.
+  Updates the app for umbrelOS 2.0. bitcoind and the dashboard now run on
+  fixed addresses on the Umbrel app network, and the app publishes its
+  connection details (address, ports, RPC credentials) to apps that depend
+  on it. Electrs testnet3 connects to bitcoind directly instead of through
+  the host. Chain data can now be moved to other storage from umbrelOS, and
+  blocks, chainstate and indexes are excluded from backups. RPC (18332) and
+  P2P (18333) ports are unchanged.
+backupIgnore:
+  - data/bitcoin/testnet3/blocks
+  - data/bitcoin/testnet3/chainstate
+  - data/bitcoin/testnet3/indexes
 developer: riannom
 repo: https://github.com/riannom/containers
 path: ""

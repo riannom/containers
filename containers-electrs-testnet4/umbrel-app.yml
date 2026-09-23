@@ -1,10 +1,12 @@
 manifestVersion: 1.1
 id: containers-electrs-testnet4
+storage:
+  dataRoot: data
 name: Electrs testnet4
 tagline: Electrum server backed by the testnet4 (BIP 94) Bitcoin Core node
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-electrs-testnet4/icon.svg
-version: "0.11.2"
+version: "0.11.3"
 port: 60040
 dependencies:
   - containers-bitcoin-testnet4
@@ -16,8 +18,8 @@ description: >-
   third-party public server.
 
   Pairs with the "Bitcoin testnet4" app. Both apps must be installed and
-  the bitcoind app must be at version 1.2.4 or newer so it ships with the
-  shared RPC password Electrs uses to authenticate.
+  the bitcoind app must be at version 1.3.0 or newer, which publishes the
+  address, ports and RPC credentials Electrs uses to connect.
 
   Connection details for wallets:
     Host:  umbrel.local (or your Umbrel device IP)
@@ -26,7 +28,16 @@ description: >-
 website: https://github.com/riannom/containers
 support: https://github.com/riannom/containers
 gallery: []
-releaseNotes: ""
+releaseNotes: >-
+  Fixes Electrs failing to start ("failed to open bitcoind cookie file").
+  Updates the app for umbrelOS 2.0: Electrs now connects to Bitcoin testnet4
+  directly on the Umbrel app network using the connection details that app
+  publishes, instead of going through the host. Requires Bitcoin testnet4
+  1.3.0 or newer. The index can now be moved to other storage from
+  umbrelOS and is excluded from backups. The wallet port (60041) is
+  unchanged.
+backupIgnore:
+  - data/db
 developer: riannom
 repo: https://github.com/riannom/containers
 path: ""
