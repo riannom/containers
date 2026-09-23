@@ -6,7 +6,7 @@ name: Electrs signet
 tagline: Electrum server backed by the signet Bitcoin Core node
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-electrs-signet/icon.svg
-version: "0.11.3"
+version: "0.11.4"
 port: 60050
 dependencies:
   - containers-bitcoin-signet
@@ -29,13 +29,12 @@ website: https://github.com/riannom/containers
 support: https://github.com/riannom/containers
 gallery: []
 releaseNotes: >-
-  Fixes Electrs failing to start ("failed to open bitcoind cookie file").
-  Updates the app for umbrelOS 2.0: Electrs now connects to Bitcoin signet
-  directly on the Umbrel app network using the connection details that app
-  publishes, instead of going through the host. Requires Bitcoin signet
-  1.3.0 or newer. The index can now be moved to other storage from
-  umbrelOS and is excluded from backups. The wallet port (60051) is
-  unchanged.
+  Replaces the static connection page with a live status page: indexing
+  progress against the Bitcoin signet node, speed and time remaining, an
+  activity feed, index and node stats, wallet requests once wallets
+  connect, and connection details with copy buttons. Adds a new icon that
+  pairs with the Bitcoin signet app. Requires Bitcoin signet 1.3.0 or
+  newer.
 backupIgnore:
   - data/db
 developer: riannom

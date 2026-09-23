@@ -1,0 +1,37 @@
+# Rendered by umbrelOS with envsubst on install and update. Only the
+# ${APP_...} variables below may contain a dollar sign; nginx variables would
+# be blanked out.
+server {
+    listen 80 default_server;
+    server_name _;
+
+    add_header Cache-Control "no-store, no-cache, must-revalidate, max-age=0" always;
+    add_header X-App-Id "containers-electrs-signet" always;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location = /config.json {
+        default_type application/json;
+        return 200 '{"network":"signet","label":"Signet","bitcoinApp":"Bitcoin signet","port":${APP_CONTAINERS_ELECTRS_SIGNET_PORT}}';
+    }
+
+    # electrs Prometheus metrics (not published to the host)
+    location = /api/metrics {
+        proxy_pass http://${APP_CONTAINERS_ELECTRS_SIGNET_IP}:${APP_CONTAINERS_ELECTRS_SIGNET_METRICS_PORT}/metrics;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 5s;
+    }
+
+    # Read-only status endpoints of the Bitcoin signet dashboard
+    location = /api/node/sync {
+        proxy_pass http://${APP_CONTAINERS_BITCOIN_SIGNET_NODE_IP}:3000/api/rpc/sync;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 5s;
+    }
+    location = /api/node/stats {
+        proxy_pass http://${APP_CONTAINERS_BITCOIN_SIGNET_NODE_IP}:3000/api/rpc/stats;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 5s;
+    }
+}

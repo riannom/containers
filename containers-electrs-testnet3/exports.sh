@@ -10,3 +10,5 @@ export APP_CONTAINERS_ELECTRS_TESTNET3_WEB_IP="10.21.23.23"
 # PORTS (keep host-published ports outside 40000-49999, which umbrelOS
 # reserves for Machines)
 export APP_CONTAINERS_ELECTRS_TESTNET3_PORT="60031"
+# Prometheus metrics, reachable only on the app network (not published)
+export APP_CONTAINERS_ELECTRS_TESTNET3_METRICS_PORT="4224"

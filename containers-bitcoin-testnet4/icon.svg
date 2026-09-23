@@ -1,6 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-  <rect width="1024" height="1024" fill="#0c1e3d"/>
-  <circle cx="512" cy="430" r="280" fill="#2563eb"/>
-  <text x="512" y="540" font-family="Arial, Helvetica, sans-serif" font-size="380" font-weight="700" text-anchor="middle" fill="#ffffff">₿</text>
-  <text x="512" y="850" font-family="Arial, Helvetica, sans-serif" font-size="120" font-weight="700" letter-spacing="8" text-anchor="middle" fill="#93c5fd">TESTNET4</text>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0d2552"/><stop offset="1" stop-color="#050a16"/></linearGradient>
+    <linearGradient id="mark" x1="232" y1="232" x2="792" y2="792" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#dbeafe"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
+    <radialGradient id="glow" cx="512" cy="512" r="420" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3b82f6" stop-opacity="0.28"/><stop offset="1" stop-color="#3b82f6" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#glow)"/>
+  <rect x="288" y="288" width="200" height="200" rx="48" fill="url(#mark)"/>
+  <rect x="288" y="536" width="200" height="200" rx="48" fill="url(#mark)"/>
+  <rect x="536" y="288" width="200" height="200" rx="48" fill="url(#mark)"/>
+  <rect x="536" y="536" width="200" height="200" rx="48" fill="url(#mark)"/>
 </svg>
