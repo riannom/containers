@@ -4,7 +4,7 @@ name: Bitcoin signet
 tagline: Bitcoin Core node on the signet test network
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-signet/icon.svg
-version: "1.2.8"
+version: "1.2.9"
 port: 38330
 description: >-
   Runs a Bitcoin Core full node on signet, a stable, signed test
@@ -23,7 +23,12 @@ description: >-
 website: https://github.com/riannom/containers
 support: https://github.com/riannom/containers
 gallery: []
-releaseNotes: ""
+releaseNotes: >-
+  Fixes a crash loop after an unclean shutdown where the basic block filter
+  index falls behind the chain tip and Bitcoin Core v30 refuses to start
+  ("Cannot read last block filter header; index may be corrupted"). A one-time
+  init step now clears just that index so bitcoind rebuilds it from local
+  blocks on boot — no re-download of the chain.
 developer: riannom
 repo: https://github.com/riannom/containers
 path: ""

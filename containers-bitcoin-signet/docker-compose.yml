@@ -50,10 +50,41 @@ services:
         NGINX_EOF
         exec nginx -g 'daemon off;'
 
+  signet_init:
+    image: nginx:alpine
+    user: root
+    restart: "no"
+    volumes:
+      - ${APP_DATA_DIR}/data:/data
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        set -e
+        DIR=/data/bitcoin/signet
+        SENTINEL="$$DIR/.blockfilter-heal-v1"
+        # One-time heal: an unclean shutdown can leave the basic block filter
+        # index behind the chain tip, which Core v30 treats as fatal
+        # ("Cannot read last block filter header; index may be corrupted") and
+        # refuses to start. Delete only that index so bitcoind rebuilds it from
+        # local blocks on next boot (fast on signet, no re-download of the
+        # chain). Gated by a sentinel so it runs once per heal version, not on
+        # every restart. Bump the sentinel suffix to re-trigger after a future
+        # corruption event.
+        if [ -d "$$DIR/indexes/blockfilter" ] && [ ! -f "$$SENTINEL" ]; then
+          echo "[init] Clearing block filter index for one-time rebuild"
+          rm -rf "$$DIR/indexes/blockfilter"
+        fi
+        mkdir -p "$$DIR"
+        touch "$$SENTINEL" 2>/dev/null || true
+        echo "[init] block filter index heal complete"
+
   signet_server:
     image: ghcr.io/getumbrel/umbrel-bitcoin:v1.2.2
     restart: on-failure
     stop_grace_period: 15m30s
+    depends_on:
+      signet_init:
+        condition: service_completed_successfully
     ports:
       - "38333:38333"
       - "38332:38332"
