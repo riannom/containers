@@ -6,7 +6,7 @@ name: Electrs signet
 tagline: Electrum server backed by the signet Bitcoin Core node
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-electrs-signet/icon.svg
-version: "0.11.5"
+version: "0.11.6"
 port: 60050
 dependencies:
   - containers-bitcoin-signet
@@ -29,8 +29,8 @@ website: https://github.com/riannom/containers
 support: https://github.com/riannom/containers
 gallery: []
 releaseNotes: >-
-  New Electrs icon: one shared design for all three Electrs apps, with a
-  badge marking the network and the Bitcoin signet app's colours. Also
+  New Electrs icon: one shared server-stack design for all three Electrs
+  apps, with a badge marking the network and the Bitcoin signet app's colours. Also
   includes the live status page from 0.11.4: indexing progress, speed and
   time remaining, an activity feed, index and node stats, and connection
   details with copy buttons. Requires Bitcoin signet 1.3.0 or newer.

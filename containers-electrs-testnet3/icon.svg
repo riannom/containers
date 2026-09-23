@@ -6,10 +6,15 @@
   </defs>
   <rect width="1024" height="1024" fill="url(#bg)"/>
   <rect width="1024" height="1024" fill="url(#glow)"/>
-  <!-- Shared Electrs mark: a server ring around a bolt -->
-  <circle cx="472" cy="472" r="232" fill="none" stroke="url(#mark)" stroke-width="32"/>
-  <path d="M 512 296 L 392 500 H 478 L 440 648 L 566 432 H 478 Z" fill="url(#mark)" stroke="url(#mark)" stroke-width="12" stroke-linejoin="round"/>
-  <!-- Network badge, knocked out of the ring with a background halo -->
+  <rect x="288" y="293" width="368" height="78" rx="39" fill="none" stroke="url(#mark)" stroke-width="32"/>
+  <circle cx="348" cy="332" r="17" fill="url(#mark)"/>
+  <path d="M 540 332 H 596" stroke="url(#mark)" stroke-width="20" stroke-linecap="round"/>
+  <rect x="288" y="433" width="368" height="78" rx="39" fill="none" stroke="url(#mark)" stroke-width="32"/>
+  <circle cx="348" cy="472" r="17" fill="url(#mark)"/>
+  <path d="M 540 472 H 596" stroke="url(#mark)" stroke-width="20" stroke-linecap="round"/>
+  <rect x="288" y="573" width="368" height="78" rx="39" fill="none" stroke="url(#mark)" stroke-width="32"/>
+  <circle cx="348" cy="612" r="17" fill="url(#mark)"/>
+  <path d="M 540 612 H 596" stroke="url(#mark)" stroke-width="20" stroke-linecap="round"/>
   <circle cx="736" cy="736" r="132" fill="url(#mark)" stroke="url(#bg)" stroke-width="36"/>
   <path transform="translate(736 736)" d="M -40 -52 C -24 -78 42 -76 40 -36 C 38 -10 12 -6 -6 -6 C 22 -6 46 6 44 34 C 42 74 -22 78 -44 52" fill="none" stroke="#040d09" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

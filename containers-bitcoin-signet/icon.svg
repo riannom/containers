@@ -6,5 +6,8 @@
   </defs>
   <rect width="1024" height="1024" fill="url(#bg)"/>
   <rect width="1024" height="1024" fill="url(#glow)"/>
-  <path d="M 232 700 H 512 A 200 200 0 1 0 511.9 700 H 792" fill="none" stroke="url(#mark)" stroke-width="88" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="472" cy="472" r="240" fill="url(#mark)"/>
+  <path transform="rotate(14 472 472) translate(472 472) scale(0.68) translate(-456 -472)" d="M 356 316 V 628 M 356 316 H 486 C 546 316 566 350 566 390 C 566 432 540 462 486 462 H 356 M 356 462 H 504 C 566 462 588 500 588 546 C 588 596 556 628 496 628 H 356 M 396 250 V 316 M 456 250 V 316 M 396 628 V 694 M 456 628 V 694 M 324 316 H 356 M 324 628 H 356" fill="none" stroke="#0a0612" stroke-width="60" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="736" cy="736" r="132" fill="url(#mark)" stroke="url(#bg)" stroke-width="36"/>
+  <path transform="translate(736 736)" d="M 40 -48 C 30 -74 -42 -76 -42 -36 C -42 -4 42 -6 42 32 C 42 74 -30 76 -44 46" fill="none" stroke="#0a0612" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

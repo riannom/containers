@@ -6,8 +6,8 @@
   </defs>
   <rect width="1024" height="1024" fill="url(#bg)"/>
   <rect width="1024" height="1024" fill="url(#glow)"/>
-  <rect x="288" y="288" width="200" height="200" rx="48" fill="url(#mark)"/>
-  <rect x="288" y="536" width="200" height="200" rx="48" fill="url(#mark)"/>
-  <rect x="536" y="288" width="200" height="200" rx="48" fill="url(#mark)"/>
-  <rect x="536" y="536" width="200" height="200" rx="48" fill="url(#mark)"/>
+  <circle cx="472" cy="472" r="240" fill="url(#mark)"/>
+  <path transform="rotate(14 472 472) translate(472 472) scale(0.68) translate(-456 -472)" d="M 356 316 V 628 M 356 316 H 486 C 546 316 566 350 566 390 C 566 432 540 462 486 462 H 356 M 356 462 H 504 C 566 462 588 500 588 546 C 588 596 556 628 496 628 H 356 M 396 250 V 316 M 456 250 V 316 M 396 628 V 694 M 456 628 V 694 M 324 316 H 356 M 324 628 H 356" fill="none" stroke="#050a16" stroke-width="60" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="736" cy="736" r="132" fill="url(#mark)" stroke="url(#bg)" stroke-width="36"/>
+  <path transform="translate(736 736)" d="M 26 72 V -72 L -48 30 H 52" fill="none" stroke="#050a16" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
