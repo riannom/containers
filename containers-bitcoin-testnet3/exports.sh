@@ -8,8 +8,9 @@ export APP_CONTAINERS_BITCOIN_TESTNET3_NODE_IP="10.21.23.20"
 export APP_CONTAINERS_BITCOIN_TESTNET3_WEB_IP="10.21.23.21"
 
 # PORTS (keep host-published ports outside 40000-49999, which umbrelOS
-# reserves for Machines)
-export APP_CONTAINERS_BITCOIN_TESTNET3_RPC_PORT="18332"
+# reserves for Machines). RPC is not testnet3's default 18332 because the
+# official Elements app publishes its P2P port on 18332.
+export APP_CONTAINERS_BITCOIN_TESTNET3_RPC_PORT="18335"
 export APP_CONTAINERS_BITCOIN_TESTNET3_P2P_PORT="18333"
 
 # RPC CREDENTIALS (fixed shared value since v1.2.4; Electrs and any external
