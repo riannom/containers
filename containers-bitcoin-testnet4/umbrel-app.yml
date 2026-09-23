@@ -4,8 +4,8 @@ name: Bitcoin testnet4
 tagline: Bitcoin Core node on the testnet4 network (BIP 94)
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-testnet4/icon.svg
-version: "1.2.9"
-port: 48330
+version: "1.2.10"
+port: 58330
 description: >-
   Runs a Bitcoin Core full node on testnet4, the modern public Bitcoin
   test network introduced via BIP 94. Recommended over testnet3 for new
@@ -24,11 +24,13 @@ website: https://github.com/riannom/containers
 support: https://github.com/riannom/containers
 gallery: []
 releaseNotes: >-
-  Fixes a crash loop after an unclean shutdown where the basic block filter
-  index falls behind the chain tip and Bitcoin Core v30 refuses to start
-  ("Cannot read last block filter header; index may be corrupted"). A one-time
-  init step now clears just that index so bitcoind rebuilds it from local
-  blocks on boot — no re-download of the chain.
+  Moves the app's dashboard port from 48330 to 58330. umbrelOS reserves
+  ports 40000-49999 for its Machines (VM) feature and now blocks app
+  installs whose port falls in that range, which prevented reinstalling
+  testnet4. RPC (48332) and P2P (48333) are unchanged. Also includes the
+  earlier fix for the block filter index crash loop after an unclean
+  shutdown: a one-time init step clears just that index so bitcoind
+  rebuilds it from local blocks on boot — no re-download of the chain.
 developer: riannom
 repo: https://github.com/riannom/containers
 path: ""
