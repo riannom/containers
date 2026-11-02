@@ -97,7 +97,8 @@ services:
       - ${APP_DATA_DIR}/data:/data
     environment:
       DEFAULT_CHAIN: testnet4
-      BITCOIND_EXTRA_ARGS: '-deprecatedrpc=create_bdb'
+      # Electrs 0.12 indexes blocks through Core's REST API on the RPC port.
+      BITCOIND_EXTRA_ARGS: '-deprecatedrpc=create_bdb,-rest=1'
       APPS_SUBNET: "${NETWORK_IP}/16"
       P2P_PORT: "${APP_CONTAINERS_BITCOIN_TESTNET4_P2P_PORT}"
       P2P_WHITEBIND_PORT: "8335"

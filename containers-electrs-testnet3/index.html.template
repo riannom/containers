@@ -311,7 +311,8 @@
           "Electrs indexes blocks as the node validates them. Node sync: " + (sync.syncProgress * 100).toFixed(1) + "%.", sync.syncProgress);
       } else if (indexed == null) {
         state = "starting";
-        setStatus("busy", "Starting", "Electrs is starting", "Opening the index database.", null);
+        setStatus("warn", "Progress unavailable", "Electrs is responding",
+          "Electrs 0.12 does not publish index-progress metrics. Check its logs for reindex progress; wallets become available after indexing finishes.", null);
       } else if (remaining > 1) {
         state = "indexing";
         setStatus("busy", "Indexing", "Indexing " + ((indexed / tip) * 100).toFixed(1) + "%",

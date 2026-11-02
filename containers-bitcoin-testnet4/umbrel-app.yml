@@ -6,7 +6,7 @@ name: Bitcoin testnet4
 tagline: Bitcoin Core node on the testnet4 network (BIP 94)
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-bitcoin-testnet4/icon.svg
-version: "1.5.0"
+version: "1.5.1"
 port: 58330
 description: >-
   Runs a Bitcoin Core full node on testnet4, the modern public Bitcoin
@@ -31,12 +31,12 @@ website: https://github.com/riannom/containers
 support: https://github.com/riannom/containers
 gallery: []
 releaseNotes: >-
-  Updates the Umbrel Bitcoin dashboard to v1.5.0, including Bitcoin Core
-  32.1 and its upstream stable fixes. New installs and nodes configured
-  to use the latest version run Core 32.1. If you previously selected a
-  specific Core version, choose Latest in the dashboard settings to
-  receive these fixes; the update preserves your existing selection.
-  Network data and the automatically selected host ports are preserved.
+  Enables Bitcoin Core REST on the existing RPC port for Electrs 0.12.
+  Update this Bitcoin app before updating its Electrs app. Select Always
+  use the latest version in the Bitcoin dashboard: Electrs 0.12 requires
+  Core 31 or newer and an unpruned node. The bundled default is Core 32.1.
+  REST serves unauthenticated blockchain data on the RPC listener; keep
+  this port restricted to your trusted network.
 backupIgnore:
   - data/bitcoin/testnet4/blocks
   - data/bitcoin/testnet4/chainstate

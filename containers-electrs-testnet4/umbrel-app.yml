@@ -6,19 +6,19 @@ name: Electrs testnet4
 tagline: Electrum server backed by the testnet4 (BIP 94) Bitcoin Core node
 category: bitcoin
 icon: https://raw.githubusercontent.com/riannom/containers/main/containers-electrs-testnet4/icon.svg
-version: "0.11.7"
+version: "0.12.0"
 port: 60040
 dependencies:
   - containers-bitcoin-testnet4
 description: >-
-  Runs Electrs (Roman Zeyde's Electrum server, v0.11.0) on top of the
+  Runs Electrs (Roman Zeyde's Electrum server, v0.12.0) on top of the
   Bitcoin testnet4 app from this community store. Lets Electrum-compatible
   wallets (Sparrow, BlueWallet, Electrum desktop, etc.) connect to a
   personal index of the modern testnet4 (BIP 94) chain instead of a
   third-party public server.
 
   Pairs with the "Bitcoin testnet4" app. Both apps must be installed and
-  the bitcoind app must be at version 1.3.0 or newer, which publishes the
+  the bitcoind app must be at version 1.5.1 or newer, which publishes the
   address, ports and RPC credentials Electrs uses to connect.
 
   Connection details for wallets:
@@ -29,12 +29,18 @@ website: https://github.com/riannom/containers
 support: https://github.com/riannom/containers
 gallery: []
 releaseNotes: >-
-  The wallet port is now chosen automatically: 60041 unless another installed
-  app already uses it, in which case the next free port is picked at
-  install and kept; the app's page shows the port in use. Update Bitcoin
-  testnet4 first so Electrs picks up its ports.
+  Updates Electrs to 0.12.0 with Electrum protocol fixes and the new bindex
+  indexer. First update the matching Bitcoin app to 1.5.1 and select
+  Always use the latest version in its dashboard (Core 31+ is required).
+  Keep Bitcoin pruning disabled. REST access is enabled by the Bitcoin
+  app update. A full Electrs reindex is required; wallets will be
+  unavailable until it finishes. The new index uses data/db-v0.12;
+  data/db is retained for rollback, so allow space for both indexes.
+  The dashboard explains that index-progress metrics are unavailable
+  in this release. Host ports and wallet connection settings are preserved.
 backupIgnore:
   - data/db
+  - data/db-v0.12
 developer: riannom
 repo: https://github.com/riannom/containers
 path: ""

@@ -65,6 +65,27 @@ per newer upstream release, including Electrs releases. Closed issues are
 considered acknowledged and are not recreated. API failures fail the monitor
 without changing issues. This is notification only; upgrades are not automatic.
 
-Electrs currently runs 0.11.0. Upstream 0.12.0 requires Core 31+, REST enabled
-(`-rest=1`), and reindexing for its new bindex format. Plan and test that migration
-before upgrading the Electrs images; Core 32.1 alone does not complete it.
+## Electrs 0.12 upgrade
+
+All three Electrs apps pin `getumbrel/electrs:v0.12.0` at multi-platform digest
+`sha256:83cb57d7b23f553b3bb858f47e784018a723993777508f2299dc07c2fccb9db0`.
+This includes upstream Electrum protocol fixes and the new bindex indexer.
+
+1. Update the matching Bitcoin app to **1.5.1** first. It enables `-rest=1`
+   on the existing RPC listener. REST serves unauthenticated blockchain data;
+   restrict that host port to your trusted network.
+2. Select **Always use the latest version** in the Bitcoin dashboard and keep
+   pruning disabled. Electrs requires Core 31+; the bundled default is 32.1.
+3. Update Electrs to **0.12.0**. It builds a fresh index in `data/db-v0.12`.
+   Wallet service is unavailable until indexing completes. Allow disk space
+   for the new index alongside the old `data/db`, which is retained unchanged.
+4. Verify wallet queries after indexing. The old index may be removed manually
+   after verification if rollback is no longer needed. Rolling back to 0.11
+   requires restoring its old image and `ELECTRS_DB_DIR=/data/db` together.
+
+Electrs 0.12 no longer exports the old index-height, RocksDB, or P2P-transfer
+metrics. The dashboard shows unavailable values and directs users to logs for
+progress, rather than claiming that the index is ready.
+
+[Upstream migration notes](https://github.com/romanz/electrs/blob/v0.12.0/doc/upgrading.md)
+explain the incompatible index format and Core REST requirements.
