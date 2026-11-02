@@ -50,7 +50,21 @@ that version.
    actual running versions afterward.
 
 Image pins are deliberately immutable. Future upstream releases require another
-reviewed update; this repository currently has no automatic release monitor.
+reviewed update; the central release watcher reports newer stable versions (see below).
 
 `PLAN.md` is historical design context and contains superseded implementation
 choices; the Compose files and app manifests define the current apps.
+
+## Upstream monitoring
+
+`config/upstream-versions.json` records the versions bundled by these apps
+(not the Umbrel app-manifest versions). Update it with each verified binary
+upgrade. The central `security-monitoring-infra` daily watcher compares this
+file on Forgejo `main` with stable GitHub releases and opens one managed issue
+per newer upstream release, including Electrs releases. Closed issues are
+considered acknowledged and are not recreated. API failures fail the monitor
+without changing issues. This is notification only; upgrades are not automatic.
+
+Electrs currently runs 0.11.0. Upstream 0.12.0 requires Core 31+, REST enabled
+(`-rest=1`), and reindexing for its new bindex format. Plan and test that migration
+before upgrading the Electrs images; Core 32.1 alone does not complete it.
